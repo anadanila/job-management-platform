@@ -1,0 +1,63 @@
+$conn = mysqli_connect("localhost","root","","job_portal");
+      if(isset($_POST['search']) or ($_GET['page']))
+         
+      {
+          $page=$_GET['page'];
+            if($page=="")
+            {   $keyb=$_POST['keyb'];
+                $category=$_POST['category'];
+				$location=$_POST['location'];
+				$experience=$_POST['experience'];
+                $page1=0;
+                 
+            }
+           else{
+                 $keyb=$_GET['keyb'];
+				 $category=$_POST['category'];
+				 $location=$_POST['location'];
+				 $experience=$_POST['experience'];
+				 $page1=($page*3)-3;
+              
+                
+            }
+          
+         
+          $query1=mysqli_query($conn, "SELECT * FROM company join all_jobs ON company.admin = all_jobs.customer_email join job_category ON all_jobs.id_category = job_category.id_category
+ 
+		WHERE (all_jobs.keyword='$keyb' and all_jobs.id_category='$category' and all_jobs.city='$location'and all_jobs.id_experience='$experience') LIMIT $page1,3");
+          $error=mysqli_num_rows($query1);
+      ?>.
+	  
+	  
+	  <div class="row mt-5">
+          <div class="col text-center">
+		   <!--Paginarea-->
+            <div class="block-27">
+              <ul>
+                        <?php  for($b=2; $b<$a; $b++)
+                      {?>                  
+                       <li><a href="index.php?page=<?php echo $b;?>& keyb=<?php echo $keyb;?>& category=<?php echo $category;?>">&lt<?php echo $b-1;?></a></li>
+					
+					  <?php }
+                  $conn = mysqli_connect("localhost","root","","job_portal");
+                  $sql=mysqli_query($conn, "SELECT * FROM company join all_jobs ON company.admin = all_jobs.customer_email join job_category ON all_jobs.id_category = job_category.id_category
+ WHERE (all_jobs.keyword='$keyb' and all_jobs.id_category='$category' and all_jobs.city='$location' and all_jobs.id_experience='$experience)");
+                      $count=mysqli_num_rows($sql);
+                      $a=$count/3;
+                      ceil($a);
+                      for($b=1; $b<=$a; $b++)
+                      {?>
+                       <li><a href="index.php?page=<?php echo $b;?>& keyb=<?php echo $keyb;?>&category=<?php echo $category;?> &location=<?php echo $location;?>"><?php echo $b;?></a></li>
+						<?php }
+						 for($b=2; $b<=$a; $b++)
+                      {?>
+                       <li><a href="index.php?page=<?php echo $b;?>& keyb=<?php echo $keyb;?>&category=<?php echo $category;?> &location=<?php echo $location;?>">&gt<? echo $b+1;?></a></li>
+					  <?php }
+					  
+					   ?>
+                 </ul>
+                    
+            </div>
+          </div>
+        </div>
+		</section>
